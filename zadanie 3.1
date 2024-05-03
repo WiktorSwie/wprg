@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>strona</title>
+</head>
+<body>
+    <h2>Formularz daty urodzenia</h2>
+    <form action="process.php" method="GET">
+        <label for="birthdate">Wybierz datę urodzenia:</label>
+        <input type="date" id="birthdate" name="birthdate" required>
+        <button type="submit">Wyślij</button>
+    </form>
+</body>
+</html>
+
+<?php
+if(isset($_GET['birthdate'])) {
+    $birthdate = $_GET['birthdate'];
+
+    function dayOfWeek($date) {
+        return date('l', strtotime($date));
+    }
+
+    function calculateAge($birthdate) {
+        $today = date('Y-m-d');
+        $diff = date_diff(date_create($birthdate), date_create($today));
+        return $diff->y;
+    }
+
+    function daysUntilNextBirthday($birthdate) {
+        $nextBirthdayYear = date('Y') + 1;
+        $nextBirthday = date($nextBirthdayYear . '-' . date('m-d', strtotime($birthdate)));
+        $today = date('Y-m-d');
+        $diff = date_diff(date_create($today), date_create($nextBirthday));
+        return $diff->days;
+    }
+
+    $dayOfWeek = dayOfWeek($birthdate);
+    $age = calculateAge($birthdate);
+    $daysUntilNextBirthday = daysUntilNextBirthday($birthdate);
+
+    echo "<h2>Informacje</h2>";
+    echo "Dzień urodzenia: $dayOfWeek <br>";
+    echo "Wiek: $age <br>";
+    echo "Pozostało: $daysUntilNextBirthday dni do urodzin";
+}
+?>
