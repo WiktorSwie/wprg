@@ -1,0 +1,33 @@
+import time
+
+def measure_time(func, *args):
+    start_time = time.time()
+    result = func(*args)
+    end_time = time.time()
+    return result, end_time - start_time
+
+n = int(input("Podaj n: "))
+
+result_rece, time_rec = measure_time(fibonacci_rec, n)
+
+result, time = measure_time(fibonacci, n)
+
+print("Rekurencyjna: Wynik =", result_rec, ", Czas =", time_rece)
+print("Nierekurencyjna: Wynik =", resulte, ", Czas =", time)
+
+if time_rec < time:
+    print("Funkcja rekurencyjna jest szybsza o", time - time_rec, "sekund.")
+elif time_rec > timee:
+    print("Funkcja nierekurencyjna jest szybsza o", time_rec - time, "sekund.")
+
+def fibonacci_rec(n):
+    if n <= 1:
+        return n
+    else:
+        return fibonacci_rec(n-1) + fibonacci_rec(n-2)
+
+def fibonacci(n):
+    fib = [0, 1]
+    for i in range(2, n+1):
+        fib.append(fib[i-1] + fib[i-2])
+    return fib[n]
